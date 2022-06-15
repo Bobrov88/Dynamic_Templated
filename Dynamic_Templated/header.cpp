@@ -26,7 +26,7 @@ T* push_front(T* _array, T& value, int& size)
 }
 
 template<typename T>
-T* insert(T* _array, T& value, int position, int& size)
+T* insert(T* _array, T value, int position, int size)
 {
 	if (position <= size)
 	{
@@ -88,9 +88,8 @@ int _call_menu(T* _array, const int& size)
 }
 
 template<typename T>
-T* _operation(T* _array, int& size, int& key)
+T* _operation(T* _array, int& size, int& key, T value)
 {
-	T value = 0;
 	int position = 0;
 	switch (key)
 	{
@@ -155,35 +154,34 @@ void _print_array(T** _array, const int& rows, const int& cols, const char*)
 template<typename T>
 T** push_back(T** _array, int& rows, int& cols, bool _add_rows)
 {
-	return insert(_array, rows, cols, _add_rows, _add_rows ? rows : cols);
+	return _insert(_array, rows, cols, _add_rows, _add_rows ? rows : cols);
 }
 
 template<typename T>
 T** push_front(T** _array, int& rows, int& cols, bool _add_rows)
 {
-	return insert(_array, rows, cols, _add_rows, 0);
+	return _insert(_array, rows, cols, _add_rows, 0);
 }
 
 template<typename T>
-T** insert(T** _array, int& rows, int& cols, bool _add_rows, int& _where_to_add)
+T** _insert(T** _array, int& rows, int& cols, bool _add_rows, int _where_to_add)
 {
+	srand(time(NULL));
 	if (_add_rows) {
 		T** _temp = new T * [++rows];
 		for (int i = 0; i < cols; i++) {
 			if (i == _where_to_add) continue;
-			_temp[i] = array[i];
+			_temp[i] = _array[i];
 		}
 		for (int i = 0; i < cols; i++) {
-			_temp[_where_to_add][i] = srand(time(NULL));
+			_temp[_where_to_add][i] = rand() % 10;
 		}
 		_delete(_array, rows - 1);
 		_array = _temp;
 	}
 	else {
-		for (int i = 0; i < rows; i++) {
-			_array[i] = insert(_array[i], srand(time(NULL)), _where_to_add, cols);
-			--cols;
-		}
+		for (int i = 0; i < rows; i++)
+			_array[i] = insert(_array[i], rand()%10, _where_to_add, cols);
 		++cols;
 	}
 	return _array;
@@ -196,7 +194,7 @@ T** erase(T** _array, int& rows, int& cols, bool _delete_rows, int _from_where_t
 		T** _temp = new T * [--rows];
 		for (int i = 0; i < cols; i++) {
 			if (i == _from_where_to_delete) continue;
-			_temp[i] = array[i];
+			_temp[i] = _array[i];
 		}
 		_delete(_array, rows + 1);
 		_array = _temp;
@@ -256,7 +254,7 @@ T** _operation(T** _array, int& rows, int& cols, int& key)
 	{
 		cout << "\n Insert: Rows - 1  Cols - 0  "; cin >> _work_with_rows;
 		cout << "\n Enter a position -> "; cin >> position;
-		_array = insert(_array, rows, cols, _work_with_rows, position);
+		_array = _insert(_array, rows, cols, _work_with_rows, position);
 		break;
 	}
 	case '4':
@@ -290,10 +288,18 @@ T** _operation(T** _array, int& rows, int& cols, int& key)
 }
 
 template<typename T>
-void _delete(T** _array, int& rows)
+void _delete(T** _array, int rows)
 {
 	for (int i = 0; i < rows; i++)
 	{
 		delete[]_array[i];
+	}
+}
+
+template<typename T>
+void copy(T*& _temp, T*& _array, int& cols)
+{
+	for (int i = 0; i < cols; i++) {
+		_temp[i] = _array[i];
 	}
 }

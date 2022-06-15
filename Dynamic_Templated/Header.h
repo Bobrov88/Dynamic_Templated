@@ -10,20 +10,22 @@ using namespace std;
 template<typename T> void _print_array(const T*, const int&, const char*);
 template<typename T> T* push_back(T*, T&, int&);
 template<typename T> T* push_front(T*, T&, int&);
-template<typename T> T* insert(T*, T&, int, int&);
+template<typename T> T* insert(T*, T, int, int);
 template<typename T> T* erase(T*, int, int&);
 template<typename T> T* pop_back(T*, int&);
 template<typename T> T* pop_front(T*, int&);
 template<typename T> int _call_menu(T*, const int&);
-template<typename T> T* _operation(T*, int& size, int&);
+template<typename T> T* _operation(T*, int& size, int&, T value);
 /*----------------two-dimensional array----------------------*/
 template<typename T> void _print_array(T**, const int&, const int&, const char*);
 template<typename T> T** push_back(T**, int&, int&, bool);
 template<typename T> T** push_front(T**, int&, int&, bool);
-template<typename T> T** insert(T**, int&, int&, bool, int&);
+template<typename T> T** _insert(T**, int&, int&, bool, int);
 template<typename T> T** erase(T**, int& rows, int& cols, bool, int);
 template<typename T> T** pop_back(T**, int&, int&, bool);
 template<typename T> T** pop_front(T**, int&, int&, bool);
 template<typename T> int _call_menu(T**, const int&, const int&);
 template<typename T> T** _operation(T**, int&, int&, int&);
-template<typename T> void _delete(T**, int& rows);
+template<typename T> void _delete(T**, int rows);
+/*----------------common functions---------------------------*/
+template<typename T> void copy(T*& _temp, T*& _array, int&);
